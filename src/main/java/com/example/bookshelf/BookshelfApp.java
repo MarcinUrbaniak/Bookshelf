@@ -16,7 +16,7 @@ public class BookshelfApp extends NanoHTTPD {
         try {
             new BookshelfApp(8080);
 
-        }catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Server can't startet because of error: \n" + e);
         }
     }
