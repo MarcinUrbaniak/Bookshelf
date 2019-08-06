@@ -47,7 +47,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.4</version>
+            <version>2.9.9.2</version>
         </dependency>
     </dependencies>
     <!-- to skopiowałem z https://mvnrepository.com/artifact/org.apache.commons/commons-math3/3.6.1 -->
