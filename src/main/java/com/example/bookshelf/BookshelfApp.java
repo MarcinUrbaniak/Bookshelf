@@ -10,7 +10,7 @@ public class BookshelfApp extends NanoHTTPD {
 
     public BookshelfApp(int port) throws IOException {
         super(port);
-        start(5000, false);
+        start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
         System.out.println("Server has been started");
     }
 

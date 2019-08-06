@@ -21,6 +21,7 @@ public class StaticListBookStorageImpl implements BookStorage {
         return null;
     }
 
+
     @Override
     public List<Book> getAllBooks() {
         return bookStorage;
