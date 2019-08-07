@@ -49,6 +49,12 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.9.9.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.6</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <!-- to skopiowałem z https://mvnrepository.com/artifact/org.apache.commons/commons-math3/3.6.1 -->
     <!-- oraz z https://github.com/junit-team/junit5-samples/blob/r5.5.0/junit5-jupiter-starter-maven/pom.xml -->
