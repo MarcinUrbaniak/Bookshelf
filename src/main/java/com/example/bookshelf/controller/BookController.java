@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.iki.elonen.NanoHTTPD.IHTTPSession;
 import fi.iki.elonen.NanoHTTPD.Response;
 
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
 
