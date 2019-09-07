@@ -93,9 +93,7 @@ public class BookshelfAppTest {
                 .body("author", equalTo("Adam Slodowa"))
                 .body("publishingHouse", equalTo("Muza"))
                 .body("pagesSum", equalTo(132))
-                .body("yearOfPublished", equalTo(2014));;
-
-
+                .body("yearOfPublished", equalTo(2014));
     }
 
 }
