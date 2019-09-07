@@ -83,7 +83,6 @@ public class PostgresListBookStorageImpl implements PostgresBookStorage {
         long id = 0;
         while (resultSet.next()){
             id = resultSet.getLong("id");
-            System.out.println("id = " + id);
             return id;
         }
         closeConnection(connection, preparedStatement);

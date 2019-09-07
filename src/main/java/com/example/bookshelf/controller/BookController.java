@@ -82,7 +82,7 @@ public class BookController {
 
     public Response serveAddBookRequest(IHTTPSession session) {
         ObjectMapper objectMapper = new ObjectMapper();
-        long randomBookId = System.currentTimeMillis();
+        long bookId = 0;
 
         String lengthHeader = session.getHeaders().get("content-length");
         int contentLength = Integer.parseInt(lengthHeader);
@@ -91,18 +91,17 @@ public class BookController {
         try {
             session.getInputStream().read(buffer, 0, contentLength);
             String requestBody = new String(buffer).trim();
-            System.out.println("requestBody = " + requestBody);
             Book requestBook = objectMapper.readValue(requestBody, Book.class);
-            //requestBook.setId(randomBookId);
 
-            bookStorage.addBook(requestBook);
+
+            bookId = bookStorage.addBook(requestBook);
 
         } catch (Exception e) {
             System.err.println("Error during process request: \n" + e);
             return newFixedLengthResponse(INTERNAL_ERROR, "text/plain", "Internal error book hasn't been added");
         }
 
-        return newFixedLengthResponse(OK, "text/plain", "Book has been successfully added. id = " + randomBookId);
+        return newFixedLengthResponse(OK, "text/plain", "Book has been successfully added. id = " + bookId);
     }
 
 }

@@ -69,32 +69,31 @@ public class BookshelfAppTest {
         with().body("\"numberOfCharpers\":10").when().post("/book/add").then().statusCode(500);
     }
 
-    private long addBookAndGetId(String json){
+    private int addBookAndGetId(String json){
         String responseText = with().body(json)
                 .when().post("/book/add")
                 .then().statusCode(200).body(startsWith("Book has been successfully added. id ="))
                 .extract().body().asString();
 
-        String idString = responseText.substring(responseText.indexOf("=")+1);
-
-        return Long.parseLong(idString);
+        String idString = responseText.substring(responseText.indexOf("=")+1).trim();
+        return Integer.parseInt(idString);
     }
 
     @Test
     public void getMethod_correctBookIdParam_shouldReturnStatus500(){
         long bookId1 = addBookAndGetId(BOOK_1);
+        System.out.println("bookId1 = " + bookId1);
         long bookId2 = addBookAndGetId(BOOK_2);
 
         with().param("id", bookId1 )
                 .when().get("/book/get")
                 .then().statusCode(200)
-                .body("id",equalTo(bookId1))
+                .body("id",equalTo((int) bookId1))
                 .body("title", equalTo("Alladyna"))
                 .body("author", equalTo("Adam Slodowa"))
                 .body("publishingHouse", equalTo("Muza"))
                 .body("pagesSum", equalTo(132))
-                .body("yearOfPublished", equalTo(2014));
-
+                .body("yearOfPublished", equalTo(2014));;
 
 
     }
