@@ -26,8 +26,6 @@ public class PostgresListBookStorageImpl implements PostgresBookStorage {
 
     @Override
     public Book getBook(long id) throws  SQLException {
-        System.out.println("wystartowala metoda getBook");
-
         Connection connection = DriverManager.getConnection(JDBC_URL, DATABASE_USER, DATABASE_PASS);
         Statement statement = connection.createStatement();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, title, author, \"publishingHouse\", \"pagesSum\", \"yearOfPublished\"\n" +
@@ -65,24 +63,31 @@ public class PostgresListBookStorageImpl implements PostgresBookStorage {
     }
 
     @Override
-    public void addBook(Book book) throws  SQLException {
+    public long addBook(Book book) throws  SQLException {
         //Class.forName("org.postgresql.Driver");
         Connection connection = DriverManager.getConnection(JDBC_URL, DATABASE_USER, DATABASE_PASS);
         //Statement statement = connection.createStatement();
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO public.books(\n" +
                 "\t title, author, \"publishingHouse\", \"pagesSum\", \"yearOfPublished\")\n" +
-                "\tVALUES ( ?, ?, ?, ?, ?);");
+                "\tVALUES ( ?, ?, ?, ?, ?)" +
+                "\tRETURNING id;");
         preparedStatement.setString(1, book.getTitle());
         preparedStatement.setString(2, book.getAuthor());
         preparedStatement.setString(3, book.getPublishingHouse());
         preparedStatement.setInt(4, book.getPagesSum());
         preparedStatement.setInt(5, book.getYearOfPublished());
 
-        preparedStatement.execute();
-
+        //preparedStatement.execute();
+        ResultSet resultSet = preparedStatement.executeQuery();
+        long id = 0;
+        while (resultSet.next()){
+            id = resultSet.getLong("id");
+            System.out.println("id = " + id);
+            return id;
+        }
         closeConnection(connection, preparedStatement);
-
+        return -1;
     }
 
     private Book prepareBook(ResultSet resultSet) throws SQLException {

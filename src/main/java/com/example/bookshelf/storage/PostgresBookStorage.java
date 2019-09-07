@@ -12,6 +12,6 @@ public interface PostgresBookStorage {
     List<Book> getAllBooks() throws ClassNotFoundException, SQLException;
 
 
-    void addBook(Book book) throws ClassNotFoundException, SQLException;
+    long addBook(Book book) throws ClassNotFoundException, SQLException;
 
 }

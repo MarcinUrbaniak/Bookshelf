@@ -93,7 +93,7 @@ public class BookController {
             String requestBody = new String(buffer).trim();
             System.out.println("requestBody = " + requestBody);
             Book requestBook = objectMapper.readValue(requestBody, Book.class);
-            requestBook.setId(randomBookId);
+            //requestBook.setId(randomBookId);
 
             bookStorage.addBook(requestBook);
 
