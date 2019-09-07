@@ -3,6 +3,7 @@ package com.example.bookshelf;
 import fi.iki.elonen.NanoHTTPD;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class BookshelfApp extends NanoHTTPD {
 
@@ -24,7 +25,14 @@ public class BookshelfApp extends NanoHTTPD {
     }
     @Override
     public Response serve(IHTTPSession session){
-        return requestUrlMapper.delegateRequest(session);
+        try {
+            return requestUrlMapper.delegateRequest(session);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

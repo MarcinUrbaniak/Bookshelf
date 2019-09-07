@@ -1,6 +1,7 @@
 package com.example.bookshelf.controller;
 
 import com.example.bookshelf.storage.BookStorage;
+import com.example.bookshelf.storage.impl.PostgresListBookStorageImpl;
 import com.example.bookshelf.storage.impl.StaticListBookStorageImpl;
 
 import com.example.bookshelf.type.Book;
@@ -10,6 +11,7 @@ import fi.iki.elonen.NanoHTTPD.IHTTPSession;
 import fi.iki.elonen.NanoHTTPD.Response;
 
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +21,16 @@ import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 public class BookController {
 
-    private final static String BOOK_ID_PARAM_NAME = "bookId";
-    private BookStorage bookStorage = new StaticListBookStorageImpl();
+    //TODO: zmiana nazwy bookId na id
+    //private final static String BOOK_ID_PARAM_NAME = "bookId";
+    private final static String BOOK_ID_PARAM_NAME = "id";
 
-    public Response serveGetBookRequest(IHTTPSession session) {
+
+    //TODO: zmienic zrodlo danych
+    //private BookStorage bookStorage = new StaticListBookStorageImpl();
+    private PostgresListBookStorageImpl bookStorage = new PostgresListBookStorageImpl();
+
+    public Response serveGetBookRequest(IHTTPSession session) throws SQLException, ClassNotFoundException {
         Map<String, List<String>> requestParameters = session.getParameters();
 
 
@@ -56,7 +64,7 @@ public class BookController {
         return newFixedLengthResponse(BAD_REQUEST, "text/plain", "Uncorrect request params");
     }
 
-    public Response serveGetBooksRequest(IHTTPSession session) {
+    public Response serveGetBooksRequest(IHTTPSession session) throws SQLException, ClassNotFoundException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String response = "";

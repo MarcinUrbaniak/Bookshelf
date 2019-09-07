@@ -5,6 +5,8 @@ import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoHTTPD.Response;
 import fi.iki.elonen.NanoHTTPD.IHTTPSession;
 
+import java.sql.SQLException;
+
 import static fi.iki.elonen.NanoHTTPD.Method.GET;
 import static fi.iki.elonen.NanoHTTPD.Method.POST;
 import static fi.iki.elonen.NanoHTTPD.Response.Status.NOT_FOUND;
@@ -19,7 +21,7 @@ public class RequestUrlMapper {
 
     private BookController bookController = new BookController();
 
-    public Response delegateRequest(IHTTPSession session){
+    public Response delegateRequest(IHTTPSession session) throws SQLException, ClassNotFoundException {
 
         if (GET.equals(session.getMethod()) && GET_BOOK_URL.equals(session.getUri())){
             return  bookController.serveGetBookRequest(session);
