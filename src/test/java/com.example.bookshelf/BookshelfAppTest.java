@@ -5,8 +5,7 @@ package com.example.bookshelf;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-import com.example.bookshelf.storage.BookStorage;
-import com.example.bookshelf.type.Book;
+
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
