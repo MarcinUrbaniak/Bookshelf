@@ -1,7 +1,7 @@
 language: java
 services:
   - postgresql
-sudo: systemctl start postgresql
+#sudo: systemctl start postgresql
 before_script:
   - psql -c 'create database book_store;' -U postgres
   - psql -c 'CREATE TABLE public.books (
