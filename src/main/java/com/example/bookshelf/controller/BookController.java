@@ -104,4 +104,7 @@ public class BookController {
         return newFixedLengthResponse(OK, "text/plain", "Book has been successfully added. id = " + bookId);
     }
 
+    public PostgresListBookStorageImpl getBookStorage() {
+        return bookStorage;
+    }
 }

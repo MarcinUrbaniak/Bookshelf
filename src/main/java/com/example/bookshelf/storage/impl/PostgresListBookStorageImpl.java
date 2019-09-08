@@ -64,9 +64,7 @@ public class PostgresListBookStorageImpl implements PostgresBookStorage {
 
     @Override
     public long addBook(Book book) throws  SQLException {
-        //Class.forName("org.postgresql.Driver");
         Connection connection = DriverManager.getConnection(JDBC_URL, DATABASE_USER, DATABASE_PASS);
-        //Statement statement = connection.createStatement();
 
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO public.books(\n" +
                 "\t title, author, \"publishingHouse\", \"pagesSum\", \"yearOfPublished\")\n" +
@@ -89,6 +87,16 @@ public class PostgresListBookStorageImpl implements PostgresBookStorage {
         return -1;
     }
 
+    public void removeDataFromDB() throws SQLException{
+        Connection connection = DriverManager.getConnection(JDBC_URL, DATABASE_USER, DATABASE_PASS);
+        Statement statement = connection.createStatement();
+
+        statement.execute("DELETE FROM public.books;");
+        bookStorage.clear();
+
+        closeConnection(connection, statement);
+    }
+
     private Book prepareBook(ResultSet resultSet) throws SQLException {
         Book book = new Book();
         book.setId(resultSet.getLong("id"));
@@ -104,4 +112,6 @@ public class PostgresListBookStorageImpl implements PostgresBookStorage {
         statement.close();
         connection.close();
     }
+
+
 }

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import static io.restassured.RestAssured.with;
 
@@ -46,6 +47,13 @@ public class BookshelfAppTest {
 
     @AfterEach
     public void afterEach(){
+
+        try {
+            bookshelfApp.requestUrlMapper.getBookController().getBookStorage().removeDataFromDB();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         bookshelfApp.stop();
     }
 
@@ -94,6 +102,63 @@ public class BookshelfAppTest {
                 .body("publishingHouse", equalTo("Muza"))
                 .body("pagesSum", equalTo(132))
                 .body("yearOfPublished", equalTo(2014));
+    }
+
+    @Test
+    public void getMethod_noBookIdParameter_shouldReturnStatus400(){
+        when().get("/book/get").then().statusCode(400).body(equalTo("Uncorrect request params"));
+    }
+
+    @Test
+    public void getMethod_wrongTypeOfBookIdParameter_shouldReturnStatus400(){
+        with().param("id", "abc")
+                .when().get("/book/get")
+                .then().statusCode(400)
+                .body(equalTo("Request param 'bookid' have not be a number"));
+    }
+    @Test
+    public void getMetchod_bookDoesNotExist_shouldReturnStatus404(){
+        with().param("id", "444").when().get("book/get")
+                .then().statusCode(404);
+    }
+
+
+    @Test
+    public void getAllMethod_0Books_shouldReturnStatus200(){
+        when().get("/book/getAll")
+                .then().statusCode(200)
+                .body("", hasSize(0));
+    }
+
+    @Test
+    public void getAllMethod_1Book_shouldReturnStatus200(){
+        int id = addBookAndGetId(BOOK_1);
+
+        when().get("/book/getAll")
+                .then().statusCode(200)
+                .body("", hasSize(1))
+                .body("id", hasItem(id))
+                .body("title", hasItem("Alladyna"))
+                .body("author", hasItem("Adam Slodowa"))
+                .body("publishingHouse", hasItem("Muza"))
+                .body("pagesSum", hasItem(132))
+                .body("yearOfPublished", hasItem(2014));
+    }
+
+    @Test
+    public void getAllMethod_2Books_shouldReturnStatus200(){
+        int id1 = addBookAndGetId(BOOK_1);
+        int id2 = addBookAndGetId(BOOK_2);
+
+        when().get("/book/getAll")
+                .then().statusCode(200)
+                .body("", hasSize(2))
+                .body("id", hasItems(id1, id2))
+                .body("title", hasItems("Alladyna", "Katarynka"))
+                .body("author", hasItems("Adam Slodowa", "Boleslaw Prus"))
+                .body("publishingHouse", hasItems("Muza", "Nasza ksiegarnia"))
+                .body("pagesSum", hasItems(132, 345))
+                .body("yearOfPublished", hasItems(2014, 1995));
     }
 
 }
