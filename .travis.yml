@@ -4,6 +4,14 @@ services:
 sudo: systemctl start postgresql
 before_script:
   - psql -c 'create database book_store;' -U postgres
+  - psql -c 'CREATE TABLE public.books (
+    id bigint NOT NULL,
+    title character varying(256) NOT NULL,
+    author character varying(256) NOT NULL,
+    "publishingHouse" character varying(256) NOT NULL,
+    "pagesSum" integer NOT NULL,
+    "yearOfPublished" integer NOT NULL
+    );'
   - cp config/database.yml.travis config/database.yml
 addons:
   postgresql: "11.2"
