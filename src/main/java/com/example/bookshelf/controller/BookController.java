@@ -19,7 +19,7 @@ import static fi.iki.elonen.NanoHTTPD.newFixedLengthResponse;
 
 public class BookController {
 
-    private final static String BOOK_ID_PARAM_NAME = "bookId";
+    private final static String BOOK_ID_PARAM_NAME = "id";
     private BookStorage bookStorage = new StaticListBookStorageImpl();
 
     public Response serveGetBookRequest(IHTTPSession session) {
@@ -97,4 +97,7 @@ public class BookController {
         return newFixedLengthResponse(OK, "text/plain", "Book has been successfully added. id = " + randomBookId);
     }
 
+    public BookStorage getBookStorage() {
+        return bookStorage;
+    }
 }
