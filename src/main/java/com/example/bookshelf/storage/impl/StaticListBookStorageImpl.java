@@ -32,4 +32,9 @@ public class StaticListBookStorageImpl implements BookStorage {
         bookStorage.add(book);
 
     }
+
+    public int getBookstorageLength(){
+
+        return bookStorage.size();
+    }
 }
