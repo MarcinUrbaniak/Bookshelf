@@ -1,4 +1,4 @@
-# BookShelfAppi 
+# BookShelfApi 
 Support for bookshelves. Adding a book and geting information about books on the shelf. The app uses a simple HTTP server and is able to handle basic requests. The data is stored in PostgreSQL DataBase.
 
 ## Technologies
